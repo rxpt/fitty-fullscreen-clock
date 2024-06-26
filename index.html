@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Relógio</title>
+    <script src="https://cdn.jsdelivr.net/npm/fitty@2.4.2/dist/fitty.min.js" defer></script>
+    <style>
+      /* Global styles */
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #272727;
+        color: #fff;
+        font-size: 18em; /* Base font size, will be adjusted with Fitty */
+      }
+
+      #clock {
+        line-height: 0%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="clock">00:00:00</div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const clockElement = document.getElementById("clock");
+        const timeZone =
+          new URLSearchParams(window.location.search).get("tz") ||
+          "America/Sao_Paulo";
+        const timeOptions = {
+          hour12: false,
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+          timeZone,
+        };
+
+        function updateTime() {
+          const now = new Date();
+          clockElement.textContent = now.toLocaleTimeString(
+            "pt-BR",
+            timeOptions
+          );
+          fitty(clockElement); // Resize text to fit container
+          setTimeout(updateTime, 1000); // Update every second
+        }
+
+        updateTime();
+      });
+    </script>
+  </body>
+</html>
